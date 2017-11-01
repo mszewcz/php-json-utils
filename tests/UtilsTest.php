@@ -13,6 +13,24 @@ use PHPUnit\Framework\TestCase;
 
 class UtilsTest extends TestCase
 {
+    /**
+     * @var Utils
+     */
+    private $utils;
+
+    public function setUp()
+    {
+        $this->utils = new Utils();
+    }
+
+    public function testCreateClass()
+    {
+        $this->assertInstanceOf('MS\Json\Utils\Utils', $this->utils);
+    }
+
+    /**
+     * @depends testCreateClass
+     */
     public function testEncode()
     {
         $obj = new \stdClass();
@@ -21,32 +39,44 @@ class UtilsTest extends TestCase
 
         $data = ['int' => 8, 'str' => 'test/Ʃ', 'arr' => [$obj]];
         $expected = '{"int":8,"str":"test/Ʃ","arr":[{"flt":5.5,"bool":true}]}';
-        $this->assertEquals($expected, Utils::encode($data));
+        $this->assertEquals($expected, $this->utils->encode($data));
     }
 
+    /**
+     * @depends testCreateClass
+     */
     public function testDecode()
     {
         $json = '{"int":8,"str":"test/Ʃ","arr":[{"flt":5.5,"bool":true}]}';
         $expected = ['int' => 8, 'str' => 'test/Ʃ', 'arr' => [0 => ['flt' => 5.5, 'bool' => true]]];
 
-        $this->assertEquals($expected, Utils::decode($json));
+        $this->assertEquals($expected, $this->utils->decode($json));
     }
 
+    /**
+     * @depends testCreateClass
+     */
     public function testEncodeException()
     {
         $this->expectExceptionMessage('JSON encoding error: Malformed UTF-8 characters, possibly incorrectly encoded');
         $data = "\xB1\x31";
-        Utils::encode($data);
+        $this->utils->encode($data);
     }
 
+    /**
+     * @depends testCreateClass
+     */
     public function testDecodeException()
     {
         $this->expectExceptionMessage('JSON decoding error: Syntax error');
         $this->expectExceptionCode(\JSON_ERROR_SYNTAX);
         $data = '{\'test\':\'1\'}';
-        Utils::decode($data);
+        $this->utils->decode($data);
     }
 
+    /**
+     * @depends testCreateClass
+     */
     public function testBase64Encode()
     {
         $data = 'Lorem ipsum dolor sit amet, consectetur adipiscing elit. Nunc eget purus ';
@@ -65,9 +95,12 @@ class UtilsTest extends TestCase
         $expected .= 'N1bSBpbiB1cm5hIGVnZXN0YXMgdmFyaXVzIGluIHZpdGFlIHF1YW0uIFBoYXNlbGx1cyBlZmZpY';
         $expected .= '2l0dXIgZWxlbWVudHVtIHNhcGllbiBpZCBkaWN0dW0u';
 
-        $this->assertEquals($expected, Utils::base64UrlEncode($data));
+        $this->assertEquals($expected, $this->utils->base64UrlEncode($data));
     }
 
+    /**
+     * @depends testCreateClass
+     */
     public function testBase64Decode()
     {
         $data = 'TG9yZW0gaXBzdW0gZG9sb3Igc2l0IGFtZXQsIGNvbnNlY3RldHVyIGFkaXBpc2NpbmcgZWxpdC4';
@@ -86,6 +119,6 @@ class UtilsTest extends TestCase
         $expected .= 'pretium condimentum. Morbi id ipsum in urna egestas varius in vitae quam. ';
         $expected .= 'Phasellus efficitur elementum sapien id dictum.';
 
-        $this->assertEquals($expected, Utils::base64UrlDecode($data));
+        $this->assertEquals($expected, $this->utils->base64UrlDecode($data));
     }
 }
