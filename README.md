@@ -43,9 +43,8 @@ $obj->bool = true;
 
 $data = ['int' => 8, 'str' => 'test/Ʃ', 'arr' => [$obj]];
 
-$utils = new Utils();
 try {
-    $encoded = $utils->encode($data);
+    $encoded = Utils::encode($data);
 } catch (\Exception $e) {
     echo $e->getMessage();
 }   
@@ -57,9 +56,8 @@ use MS\Json\Utils\Utils;
 
 $json = '{"int":8,"str":"test/Ʃ","arr":[{"flt":5.5,"bool":true}]}';
 
-$utils = new Utils();
 try {
-    $decoded = $utils->decode($json);
+    $decoded = Utils::decode($json);
 } catch (\Exception $e) {
     echo $e->getMessage();
 }   
@@ -77,8 +75,7 @@ $data.= 'placerat, sagittis justo id, elementum elit. Maecenas dignissim dui ac 
 $data.= 'pretium condimentum. Morbi id ipsum in urna egestas varius in vitae quam. ';
 $data.= 'Phasellus efficitur elementum sapien id dictum.';
 
-$utils = new Utils();
-$encoded = $utils->base64UrlEncode($data);
+$encoded = Utils::base64UrlEncode($data);
 ```
 
 To base64url decode string:
@@ -94,8 +91,7 @@ $data.= 'kaWduaXNzaW0gZHVpIGFjIGxlY3R1cyBwcmV0aXVtIGNvbmRpbWVudHVtLiBNb3JiaSBpZC
 $data.= 'N1bSBpbiB1cm5hIGVnZXN0YXMgdmFyaXVzIGluIHZpdGFlIHF1YW0uIFBoYXNlbGx1cyBlZmZpY';
 $data.= '2l0dXIgZWxlbWVudHVtIHNhcGllbiBpZCBkaWN0dW0u';
 
-$utils = new Utils();
-$decoded = $utils->base64UrlDecode($data);
+$decoded = Utils::base64UrlDecode($data);
 ```
 
 <a name="Contributing"></a>
