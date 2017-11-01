@@ -23,7 +23,7 @@ final class Utils
      * @return string
      * @throws EncodingException
      */
-    public function encode($data): string
+    public static function encode($data): string
     {
         $encoded = \json_encode($data, \JSON_UNESCAPED_SLASHES | \JSON_UNESCAPED_UNICODE);
         if (\json_last_error() !== JSON_ERROR_NONE) {
@@ -39,7 +39,7 @@ final class Utils
      * @return array
      * @throws DecodingException
      */
-    public function decode(string $json): array
+    public static function decode(string $json): array
     {
         $decoded = \json_decode($json, true);
         if (\json_last_error() !== JSON_ERROR_NONE) {
@@ -54,7 +54,7 @@ final class Utils
      * @param string $data
      * @return string
      */
-    public function base64UrlEncode(string $data): string
+    public static function base64UrlEncode(string $data): string
     {
         return \rtrim(\strtr(\base64_encode($data), '+/', '-_'), '=');
     }
@@ -65,7 +65,7 @@ final class Utils
      * @param string $data
      * @return string
      */
-    public function base64UrlDecode(string $data): string
+    public static function base64UrlDecode(string $data): string
     {
         return \base64_decode(\str_pad(\strtr($data, '-_', '+/'), \strlen($data)%4, '=', \STR_PAD_RIGHT));
     }
